@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.input.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="kz.atu.inventory.MainController">
+    <top>
+        <VBox>
+            <MenuBar>
+                <Menu text="Файл">
+                    <MenuItem text="Сохранить" onAction="#onSave">
+                        <accelerator><KeyCodeCombination alt="UP" code="S" control="DOWN" meta="UP" shift="UP" shortcut="UP"/></accelerator>
+                    </MenuItem>
+                    <SeparatorMenuItem/>
+                    <MenuItem text="Выход" onAction="#onExit">
+                        <accelerator><KeyCodeCombination alt="UP" code="Q" control="DOWN" meta="UP" shift="UP" shortcut="UP"/></accelerator>
+                    </MenuItem>
+                </Menu>
+                <Menu text="Правка">
+                    <MenuItem text="Добавить товар" onAction="#onAdd">
+                        <accelerator><KeyCodeCombination alt="UP" code="N" control="DOWN" meta="UP" shift="UP" shortcut="UP"/></accelerator>
+                    </MenuItem>
+                    <MenuItem text="Редактировать" onAction="#onEdit">
+                        <accelerator><KeyCodeCombination alt="UP" code="E" control="DOWN" meta="UP" shift="UP" shortcut="UP"/></accelerator>
+                    </MenuItem>
+                    <MenuItem text="Удалить" onAction="#onDelete">
+                        <accelerator><KeyCodeCombination alt="UP" code="DELETE" control="UP" meta="UP" shift="UP" shortcut="UP"/></accelerator>
+                    </MenuItem>
+                </Menu>
+                <Menu text="Склад">
+                    <MenuItem text="Приход" onAction="#onReceipt">
+                        <accelerator><KeyCodeCombination alt="UP" code="I" control="DOWN" meta="UP" shift="UP" shortcut="UP"/></accelerator>
+                    </MenuItem>
+                    <MenuItem text="Списание" onAction="#onWriteOff">
+                        <accelerator><KeyCodeCombination alt="UP" code="W" control="DOWN" meta="UP" shift="UP" shortcut="UP"/></accelerator>
+                    </MenuItem>
+                    <SeparatorMenuItem/>
+                    <MenuItem text="Сбросить фильтры" onAction="#onResetFilter"/>
+                </Menu>
+                <Menu text="Справка">
+                    <MenuItem text="О программе" onAction="#onAbout"/>
+                </Menu>
+            </MenuBar>
+
+            <HBox styleClass="header" alignment="CENTER_LEFT" spacing="12">
+                <Label text="Учёт склада" styleClass="header-title"/>
+                <Label text="товары · остатки · приход · списание" styleClass="header-sub"/>
+            </HBox>
+
+            <ToolBar styleClass="main-toolbar">
+                <Button text="+ Добавить" styleClass="btn-primary" onAction="#onAdd"/>
+                <Button text="Изменить" styleClass="btn-neutral" onAction="#onEdit"/>
+                <Button text="Удалить" styleClass="btn-danger" onAction="#onDelete"/>
+                <Separator orientation="VERTICAL"/>
+                <Button text="Приход" styleClass="btn-success" onAction="#onReceipt"/>
+                <Button text="Списание" styleClass="btn-warning" onAction="#onWriteOff"/>
+                <Separator orientation="VERTICAL"/>
+                <Button text="Сохранить" styleClass="btn-neutral" onAction="#onSave"/>
+            </ToolBar>
+        </VBox>
+    </top>
+
+    <center>
+        <VBox spacing="14" styleClass="content">
+            <HBox spacing="14">
+                <VBox styleClass="stat-card, stat-blue" HBox.hgrow="ALWAYS">
+                    <Label text="Всего товаров" styleClass="stat-title"/>
+                    <Label fx:id="totalLabel" text="0" styleClass="stat-value"/>
+                </VBox>
+                <VBox styleClass="stat-card, stat-green" HBox.hgrow="ALWAYS">
+                    <Label text="Стоимость склада" styleClass="stat-title"/>
+                    <Label fx:id="valueLabel" text="0" styleClass="stat-value"/>
+                </VBox>
+                <VBox styleClass="stat-card, stat-red" HBox.hgrow="ALWAYS">
+                    <Label text="Низкий остаток" styleClass="stat-title"/>
+                    <Label fx:id="lowLabel" text="0" styleClass="stat-value"/>
+                </VBox>
+            </HBox>
+
+            <HBox styleClass="filter-card" spacing="10" alignment="CENTER_LEFT">
+                <Label text="Поиск:"/>
+                <TextField fx:id="searchField" promptText="Название или поставщик" HBox.hgrow="ALWAYS"/>
+                <Label text="Категория:"/>
+                <ComboBox fx:id="categoryBox" prefWidth="170"/>
+                <CheckBox fx:id="lowStockCheck" text="Только низкий остаток"/>
+                <Button text="Сбросить" styleClass="btn-neutral" onAction="#onResetFilter"/>
+            </HBox>
+
+            <TableView fx:id="table" VBox.vgrow="ALWAYS">
+                <columns>
+                    <TableColumn fx:id="colId" text="ID" maxWidth="60"/>
+                    <TableColumn fx:id="colName" text="Название"/>
+                    <TableColumn fx:id="colCategory" text="Категория"/>
+                    <TableColumn fx:id="colPrice" text="Цена"/>
+                    <TableColumn fx:id="colQty" text="Остаток"/>
+                    <TableColumn fx:id="colMin" text="Мин. остаток"/>
+                    <TableColumn fx:id="colSupplier" text="Поставщик"/>
+                </columns>
+                <columnResizePolicy>
+                    <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+                </columnResizePolicy>
+            </TableView>
+        </VBox>
+    </center>
+
+    <bottom>
+        <HBox styleClass="status-bar">
+            <Label fx:id="statusLabel" maxWidth="Infinity" HBox.hgrow="ALWAYS"/>
+            <Label fx:id="countLabel"/>
+        </HBox>
+    </bottom>
+</BorderPane>
